@@ -1,3 +1,55 @@
+@import "reset";
+$days_of_week: ("mon", "tue", "wed", "thu", "fri", "sat", "sun");
+
 body {
-  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 1px;
+  padding-top: 10px;
+}
+
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+  box-sizing: border-box;
+  background: #eee;
+  border: 1px solid black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+}
+
+div:hover {
+  background: #ffc0cb;
+  cursor: pointer;
+  transform: translateY(-20px);
+  transition-duration: 0.5s;
+}
+
+@for $days_number from 1 through 31 {
+  div div:nth-child(#{$days_number})::after {
+    content: "#{$days_number}";
+  }
+}
+
+@for $days from 28 through 31 {
+  .calendar-#{$days} div:nth-child(#{$days}) ~ div {
+    display: none;
+  }
+}
+
+$i: 1;
+@each $day in $days_of_week {
+  .calendar-#{$day} > div:nth-child(1) {
+    grid-column-start: #{$i};
+  }
+  $i: $i + 1;
 }
